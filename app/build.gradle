@@ -1,0 +1,53 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+}
+
+android {
+    namespace 'com.example.chordfinder'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.example.chordfinder"
+        minSdk 24
+        targetSdk 35
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+}
+
+dependencies {
+    // Core AndroidX libraries:
+    implementation libs.androidx.core.ktx          // Kotlin extensions for Android
+    implementation libs.androidx.appcompat          // AppCompat support for older versions
+    implementation libs.material                    // Material Design components
+    implementation libs.androidx.activity           // Support library for Activity components
+    implementation libs.androidx.constraintlayout     // Flexible UI design with ConstraintLayout
+
+    // Retrofit for REST API calls:
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // Converter for parsing JSON responses using Gson:
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // RecyclerView for displaying lists (chord search results):
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    // (Unused 4/6/25) Kotlin Coroutines for asynchronous operations:
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+}
