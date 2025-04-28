@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/characterListFragment"
-        android:name="com.example.mealrecipesapp.ui.CharacterListFragment"
+        android:name="com.example.rickopedia.ui.CharacterListFragment"
         android:label="Characters"
         tools:layout="@layout/fragment_character_list">
 
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/favoriteCharactersFragment"
-        android:name="com.example.mealrecipesapp.ui.FavoriteCharactersFragment"
+        android:name="com.example.rickopedia.ui.FavoriteCharactersFragment"
         android:label="Favorites"
         tools:layout="@layout/fragment_favorite_characters">
 
@@ -35,7 +35,7 @@
 
     <fragment
         android:id="@+id/characterDetailsFragment"
-        android:name="com.example.mealrecipesapp.ui.CharacterDetailsFragment"
+        android:name="com.example.rickopedia.ui.CharacterDetailsFragment"
         android:label="Details"
         tools:layout="@layout/fragment_character_details">
 

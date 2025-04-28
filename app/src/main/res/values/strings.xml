@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">MealRecipesApp</string>
-    <string name="favorites">Favorites</string>
-    <string name="recipes">Recipes</string>
+    <string name="app_name">Rickopedia</string>
     <string name="search_characters">Search Characters</string>
 </resources>

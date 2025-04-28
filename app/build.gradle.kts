@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mealrecipesapp"
+    namespace = "com.example.rickopedia"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.mealrecipesapp"
+        applicationId = "com.example.rickopedia"
         minSdk = 26
         targetSdk = 35
         versionCode = 1
