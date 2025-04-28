@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/characterListFragment">
+
+    <fragment
+        android:id="@+id/characterListFragment"
+        android:name="com.example.mealrecipesapp.ui.CharacterListFragment"
+        android:label="Characters"
+        tools:layout="@layout/fragment_character_list">
+
+        <!-- to Details -->
+        <action
+            android:id="@+id/action_characterList_to_characterDetails"
+            app:destination="@id/characterDetailsFragment" />
+        <!-- to Favorites -->
+        <action
+            android:id="@+id/action_characterList_to_favoriteCharacters"
+            app:destination="@id/favoriteCharactersFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/favoriteCharactersFragment"
+        android:name="com.example.mealrecipesapp.ui.FavoriteCharactersFragment"
+        android:label="Favorites"
+        tools:layout="@layout/fragment_favorite_characters">
+
+        <action
+            android:id="@+id/action_favorites_to_characterDetails"
+            app:destination="@id/characterDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/characterDetailsFragment"
+        android:name="com.example.mealrecipesapp.ui.CharacterDetailsFragment"
+        android:label="Details"
+        tools:layout="@layout/fragment_character_details">
+
+        <!-- argument passed in from list or favorites -->
+        <argument
+            android:name="characterId"
+            app:argType="string" />
+    </fragment>
+</navigation>

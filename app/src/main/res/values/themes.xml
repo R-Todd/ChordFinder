@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MealRecipesApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/rick_primary</item>
+        <item name="colorOnPrimary">@color/rick_blue</item>
+        <item name="colorPrimaryVariant">@color/rick_primary_variant</item>
+
+        <!-- Accent / secondary color -->
+        <item name="colorSecondary">@color/rick_secondary</item>
+        <item name="colorOnSecondary">@color/on_secondary</item>
+        <item name="colorSecondaryVariant">@color/rick_secondary_variant</item>
+
+        <!-- backgrounds & surfaces -->
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:colorBackground">@color/background</item>
+
+        <!-- window & surfaces -->
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/on_surface</item>
+
+        <!-- text defaults -->
+        <item name="android:textColorPrimary">@color/on_surface</item>
+        <item name="android:textColorSecondary">@color/on_surface</item>
+
+        <!-- Status & nav bars -->
+        <item name="android:statusBarColor">@color/rick_primary_variant</item>
+        <item name="android:navigationBarColor">@color/surface</item>
+
+        <!-- Error color -->
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/on_primary</item>
+
+        <item name="android:textViewStyle">@style/AppTextViewStyle</item>
+
+    </style>
+
+    <style name="AppTextViewStyle" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/on_surface</item>
+    </style>
+
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="rick_primary">#33FF33</color>
+    <color name="rick_primary_variant">#00CC00</color>
+    <color name="rick_secondary">#0CA5E2</color>
+    <color name="rick_secondary_variant">#084E70</color>
+    <color name="rick_blue">#5CCFE6</color>
+
+    <!-- Dark backgrounds, like deep space -->
+    <color name="background">#1F1F1F</color>
+    <color name="surface">#2B2B2B</color>
+
+    <!-- Standard Material roles -->
+    <color name="error">#FF5C5C</color>
+    <color name="on_primary">#000000</color>
+    <color name="on_background">#FFFFFF</color>
+    <color name="on_surface">#FFFFFF</color>
+    <color name="on_secondary">#FFFFFF</color>
+</resources>
