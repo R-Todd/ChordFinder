@@ -1,69 +1,50 @@
 package com.example.rickopedia.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.rickopedia.data.Character
 import com.example.rickopedia.repository.CharacterRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import retrofit2.Response
 
-/**
- * Shared ViewModel for searching, fetching, and favorites.
- */
 class CharacterViewModel(
     private val repo: CharacterRepository
 ) : ViewModel() {
 
-    /** Remember last search so we can restore the EditText on return */
+    // so we can restore the last search text
     var lastQuery: String = ""
 
-    /** Backing LiveData for name‐search results */
+    // exposes favorites from Room
+    val favorites: LiveData<List<Character>> = repo.getAllFavorites()
+
+    // for one‐off searches
     private val _searchResults = MutableLiveData<List<Character>>()
     val searchResults: LiveData<List<Character>> = _searchResults
 
-    /** LiveData list of favorites from Room */
-    val favorites: LiveData<List<Character>> = repo.getAllFavorites()
-
-    /**
-     * Search characters by name, post results into [_searchResults].
-     */
     fun searchCharacters(query: String) {
         lastQuery = query
-        viewModelScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                repo.searchCharacters(query)
-            }
-            // CharacterResponse.results is List<Character>?
-            val list = response.results ?: emptyList()
-            _searchResults.postValue(list)
+        viewModelScope.launch(Dispatchers.IO) {
+            val all = repo.searchCharacters(query)  // returns List<Character>
+            _searchResults.postValue(all)
         }
     }
 
-    /**
-     * Fetch a single character by ID, trying DB first then network.
-     * Emits `Character?`.
-     */
-    fun getCharacterById(id: String): LiveData<Character?> = liveData(Dispatchers.IO) {
-        // 1) Try Room
-        repo.findFavoriteById(id.toInt())?.let {
-            emit(it)
-            return@liveData
-        }
-        // 2) Fallback to network
-        val response: Response<Character> = repo.fetchCharacterById(id)
-        if (response.isSuccessful) {
-            emit(response.body())
-        } else {
-            emit(null)
-        }
-    }
-
-    /** Insert into favorites table */
     fun insertFavorite(character: Character) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.insertFavorite(character)
         }
     }
-}
 
+    fun getCharacterById(id: Int, onResult: (Character?) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.findFavoriteById(id)?.let {
+                onResult(it)
+            } ?: run {
+                val resp = repo.fetchCharacterById(id)
+                onResult(if (resp.isSuccessful) resp.body() else null)
+            }
+        }
+    }
+}

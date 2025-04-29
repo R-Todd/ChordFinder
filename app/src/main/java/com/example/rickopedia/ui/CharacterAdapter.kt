@@ -2,36 +2,62 @@ package com.example.rickopedia.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.*
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.example.rickopedia.data.Character
 import com.example.rickopedia.databinding.ItemCharacterBinding
 
-
+/**
+ * Adapter for both the search results and the favorites list.
+ * Make sure your item_character.xml has these IDs:
+ *   - ImageView  → @+id/ivCharacterThumb
+ *   - TextView   → @+id/tvCharacterName
+ */
 class CharacterAdapter(
     private val onClick: (Character) -> Unit
-) : ListAdapter<Character, CharacterAdapter.VH>(Diff()) {
+) : RecyclerView.Adapter<CharacterAdapter.CharacterViewHolder>() {
 
-    class VH(private val b: ItemCharacterBinding)
-        : RecyclerView.ViewHolder(b.root) {
-        fun bind(c: Character, onClick: (Character) -> Unit) = with(b) {
-            tvCharacterName.text = c.name
-            Glide.with(root).load(c.image).into(ivCharacterThumb)
-            root.setOnClickListener { onClick(c) }
+    private val items = mutableListOf<Character>()
+
+    /** Replace the list and refresh */
+    fun submitList(newList: List<Character>) {
+        items.apply {
+            clear()
+            addAll(newList)
         }
+        notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        VH(ItemCharacterBinding.inflate(
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CharacterViewHolder {
+        val binding = ItemCharacterBinding.inflate(
             LayoutInflater.from(parent.context),
-            parent, false))
-
-    override fun onBindViewHolder(holder: VH, pos: Int) {
-        holder.bind(getItem(pos), onClick)
+            parent,
+            false
+        )
+        return CharacterViewHolder(binding)
     }
 
-    private class Diff : DiffUtil.ItemCallback<Character>() {
-        override fun areItemsTheSame(a: Character, b: Character) = a.id == b.id
-        override fun areContentsTheSame(a: Character, b: Character) = a == b
+    override fun getItemCount(): Int = items.size
+
+    override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) {
+        holder.bind(items[position])
+    }
+
+    inner class CharacterViewHolder(
+        private val binding: ItemCharacterBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(character: Character) {
+            // load into ivCharacterThumb, not ivCharacterImage!
+            binding.ivCharacterThumb.load(character.image)
+            binding.tvCharacterName.text = character.name
+
+            binding.root.setOnClickListener {
+                onClick(character)
+            }
+        }
     }
 }

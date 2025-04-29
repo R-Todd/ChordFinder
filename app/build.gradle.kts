@@ -38,7 +38,7 @@ android {
 
     buildFeatures {
         compose = true
-        viewBinding = true    // <— added this line
+        viewBinding = true
     }
 }
 
