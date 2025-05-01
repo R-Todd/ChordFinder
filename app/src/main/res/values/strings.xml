@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">Rickopedia</string>
     <string name="search_characters">Search Characters</string>
+    <string name="character_not_found">Character not found!</string>
+    <string name="invalid_character_id">Invalid character ID</string>
+    <string name="added_to_favorites">Added to favorites</string>
+    <string name="status_label">Status: %1$s</string>
+    <string name="species_label">Species: %1$s</string>
+    <string name="gender_label">Gender: %1$s</string>
+    <string name="origin_label">Origin: %1$s</string>
+    <string name="location_label">Last Seen: %1$s</string>
+    <string name="menu_characters">Characters</string>
+    <string name="menu_favorites">Favorites</string>
 </resources>

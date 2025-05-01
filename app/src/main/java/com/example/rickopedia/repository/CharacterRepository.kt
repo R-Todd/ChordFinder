@@ -46,10 +46,10 @@ class CharacterRepository private constructor(
         val firstBody = firstResp.body() ?: return emptyList()
 
         // add page-1 results
-        accumulated += (firstBody.results ?: emptyList())
+        accumulated += firstBody.results
 
         // how many pages do we have?
-        val totalPages = firstBody.info?.pages ?: 1
+        val totalPages = firstBody.info.pages
 
         // fetch pages 2..N
         for (page in 2..totalPages) {

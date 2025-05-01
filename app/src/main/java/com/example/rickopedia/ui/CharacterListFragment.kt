@@ -1,9 +1,7 @@
 package com.example.rickopedia.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -23,22 +21,21 @@ class CharacterListFragment : Fragment() {
     private lateinit var adapter: CharacterAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ) = FragmentCharacterListBinding.inflate(inflater, container, false)
-        .also { _binding = it }
-        .root
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentCharacterListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 1) set up VM with our factory
+        // 1) ViewModel + Factory
         val factory = CharacterViewModelFactory(requireContext())
         viewModel = ViewModelProvider(requireActivity(), factory)
             .get(CharacterViewModel::class.java)
 
-        // 2) set up the adapter
+        // 2) Adapter + click -> details
         adapter = CharacterAdapter { character ->
             val args = bundleOf("characterId" to character.id)
             findNavController().navigate(
@@ -46,21 +43,42 @@ class CharacterListFragment : Fragment() {
                 args
             )
         }
-
         binding.rvCharacters.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = this@CharacterListFragment.adapter
         }
 
-        // 3) observe results
+        // 3) Observe
         viewModel.searchResults.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
 
-        // 4) wire up search button
+        // 4) Search button in fragment layout
         binding.btnSearch.setOnClickListener {
             val q = binding.etSearch.text.toString().trim()
             if (q.isNotEmpty()) viewModel.searchCharacters(q)
+        }
+    }
+
+    // Tell Fragment it has its own menu
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    // Inflate our menu_main.xml into the Toolbar
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+    }
+
+    // Handle the Favorites button tap
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_favorites -> {
+                findNavController().navigate(R.id.favoriteCharactersFragment)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 

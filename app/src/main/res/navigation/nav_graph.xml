@@ -36,12 +36,12 @@
     <fragment
         android:id="@+id/characterDetailsFragment"
         android:name="com.example.rickopedia.ui.CharacterDetailsFragment"
-        android:label="Details"
         tools:layout="@layout/fragment_character_details">
 
-        <!-- argument passed in from list or favorites -->
+        <!-- change this: -->
         <argument
             android:name="characterId"
-            app:argType="string" />
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 </navigation>
