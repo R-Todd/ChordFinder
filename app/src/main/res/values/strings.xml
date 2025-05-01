@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Rickopedia</string>
     <string name="search_characters">Search Characters</string>
@@ -12,3 +13,4 @@
     <string name="menu_characters">Characters</string>
     <string name="menu_favorites">Favorites</string>
 </resources>
+

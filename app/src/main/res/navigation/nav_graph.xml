@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/characterListFragment">
 
+    <!-- Characters (TOP-LEVEL – no up arrow) -->
     <fragment
         android:id="@+id/characterListFragment"
         android:name="com.example.rickopedia.ui.CharacterListFragment"
         android:label="Characters"
         tools:layout="@layout/fragment_character_list">
 
-        <!-- to Details -->
         <action
             android:id="@+id/action_characterList_to_characterDetails"
             app:destination="@id/characterDetailsFragment" />
-        <!-- to Favorites -->
+
         <action
             android:id="@+id/action_characterList_to_favoriteCharacters"
             app:destination="@id/favoriteCharactersFragment" />
     </fragment>
 
+    <!-- Favorites – gets its own title & inherits the up arrow -->
     <fragment
         android:id="@+id/favoriteCharactersFragment"
         android:name="com.example.rickopedia.ui.FavoriteCharactersFragment"
@@ -33,12 +33,13 @@
             app:destination="@id/characterDetailsFragment" />
     </fragment>
 
+    <!-- Details – title will be “Details” for now -->
     <fragment
         android:id="@+id/characterDetailsFragment"
         android:name="com.example.rickopedia.ui.CharacterDetailsFragment"
+        android:label="Details"
         tools:layout="@layout/fragment_character_details">
 
-        <!-- change this: -->
         <argument
             android:name="characterId"
             app:argType="integer"

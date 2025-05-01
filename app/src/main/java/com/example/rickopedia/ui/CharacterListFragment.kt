@@ -2,6 +2,9 @@ package com.example.rickopedia.ui
 
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import androidx.core.content.getSystemService
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -30,57 +33,61 @@ class CharacterListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 1) ViewModel + Factory
+        /* 1) ViewModel */
         val factory = CharacterViewModelFactory(requireContext())
         viewModel = ViewModelProvider(requireActivity(), factory)
             .get(CharacterViewModel::class.java)
 
-        // 2) Adapter + click -> details
+        /* 2) RecyclerView + Adapter */
         adapter = CharacterAdapter { character ->
             val args = bundleOf("characterId" to character.id)
-            findNavController().navigate(
-                R.id.characterDetailsFragment,
-                args
-            )
+            findNavController().navigate(R.id.characterDetailsFragment, args)
         }
-        binding.rvCharacters.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = this@CharacterListFragment.adapter
-        }
+        binding.rvCharacters.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvCharacters.adapter = adapter
 
-        // 3) Observe
+        /* 3) LiveData observation */
         viewModel.searchResults.observe(viewLifecycleOwner) { list ->
             adapter.submitList(list)
         }
 
-        // 4) Search button in fragment layout
-        binding.btnSearch.setOnClickListener {
-            val q = binding.etSearch.text.toString().trim()
-            if (q.isNotEmpty()) viewModel.searchCharacters(q)
+        /* 4) Explicit Search button */
+        binding.btnSearch.setOnClickListener { launchSearch() }
+
+        /* 5) IME actionSearch (“enter” on keyboard) */
+        binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                launchSearch()
+                true
+            } else false
         }
     }
 
-    // Tell Fragment it has its own menu
+    /** Runs a search and hides the soft-keyboard */
+    private fun launchSearch() {
+        val query = binding.etSearch.text?.toString()?.trim().orEmpty()
+        if (query.isNotEmpty()) {
+            viewModel.searchCharacters(query)
+            // hide keyboard
+            requireContext()
+                .getSystemService<InputMethodManager>()
+                ?.hideSoftInputFromWindow(binding.etSearch.windowToken, 0)
+        }
+    }
+
+    /* ==== Toolbar menu ==== */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
     }
-
-    // Inflate our menu_main.xml into the Toolbar
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_main, menu)
     }
-
-    // Handle the Favorites button tap
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_favorites -> {
-                findNavController().navigate(R.id.favoriteCharactersFragment)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        if (item.itemId == R.id.menu_favorites) {
+            findNavController().navigate(R.id.favoriteCharactersFragment)
+            true
+        } else super.onOptionsItemSelected(item)
 
     override fun onDestroyView() {
         super.onDestroyView()

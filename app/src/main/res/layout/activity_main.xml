@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app   ="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width ="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Toolbar as your ActionBar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id    ="@+id/toolbar"
-        android:layout_width ="match_parent"
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background    ="?attr/colorPrimary"
-        app:title            ="Rickopedia"
-        app:titleTextColor   ="@color/rick_blue"
-        app:navigationIconTint="@color/rick_blue"
-        app:popupTheme       ="@style/ThemeOverlay.AppCompat.Light"/>
+        android:background="?attr/colorPrimary"
+        app:title="Rickopedia"
+        app:titleTextColor="@color/rick_blue"/>
 
-    <!-- THIS is the NavHostFragment -->
-    <fragment
-        android:id       ="@+id/nav_host_fragment"
-        android:name     ="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width  ="match_parent"
-        android:layout_height ="0dp"
-        android:layout_weight ="1"
-        app:defaultNavHost    ="true"
-        app:navGraph          ="@navigation/nav_graph"/>
-</LinearLayout>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
