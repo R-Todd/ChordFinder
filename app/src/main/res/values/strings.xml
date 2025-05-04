@@ -12,5 +12,6 @@
     <string name="location_label">Last Seen: %1$s</string>
     <string name="menu_characters">Characters</string>
     <string name="menu_favorites">Favorites</string>
+    <string name="search">Search</string>
 </resources>
 
